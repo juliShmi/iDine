@@ -12,7 +12,10 @@ struct ItemRow: View {
     var body: some View {
         HStack {
             Image(menuItem.thumbnailImage)
-            Text(menuItem.name)
+            VStack(alignment:.leading) {
+                Text(menuItem.name)
+                Text("\(menuItem.price)$")
+            }
         }
     }
 }
