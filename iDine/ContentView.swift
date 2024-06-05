@@ -15,11 +15,15 @@ struct ContentView: View {
                 ForEach(menu) { section in
                     Section(section.name) {
                         ForEach(section.items) { item in
-                            ItemRow(menuItem: item)
+                            NavigationLink(value: item) {
+                                ItemRow(menuItem: item)
+                            }
                         }
                     }
                 }
             }
+            .navigationDestination(for: MenuItem.self) { item in
+                ItemDetail(item: item) }
             .navigationTitle("Menu")
             .listStyle(.grouped)
         }
