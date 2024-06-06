@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct ItemDetail: View {
+    @EnvironmentObject var order: Order
     let item: MenuItem
+    
     var body: some View {
         VStack {
             ZStack(alignment: .bottomTrailing) {
@@ -23,10 +25,15 @@ struct ItemDetail: View {
                     .foregroundColor(.white)
                     .offset(x: -5, y: -5)
             }
-                Text(item.description)
-                    .padding()
-                Spacer()
             
+            Text(item.description)
+                    .padding()
+            Button("Add to Order") {
+                order.add(item: item)
+            }
+            .buttonStyle(.borderedProminent)
+            
+            Spacer()
         }
         .navigationTitle(item.name)
         .navigationBarTitleDisplayMode(.inline)
@@ -36,5 +43,6 @@ struct ItemDetail: View {
 #Preview {
     NavigationStack {
         ItemDetail(item: MenuItem.example)
+            .environmentObject(Order())
     }
 }
