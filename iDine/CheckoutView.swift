@@ -25,6 +25,8 @@ struct CheckoutView: View {
         return (total + tipValue).formatted(.currency(code: "USD"))
     }
     
+    @State private var showingConfirmationAlert = false
+    
     var body: some View {
         Form {
             Section {
@@ -47,10 +49,18 @@ struct CheckoutView: View {
             }
             Section("Total: \(showTotalPrice)") {
                 Button("Confirm order") {
-                    
+                    showingConfirmationAlert.toggle()
                 }
             }
         }
+        .navigationTitle("Payment")
+        .navigationBarTitleDisplayMode(.inline)
+        .alert("Order confirmed", isPresented: $showingConfirmationAlert) {
+            //add buttons here
+        } message: {
+            Text("Your total price is \(showTotalPrice)")
+        }
+            
     }
 }
 
