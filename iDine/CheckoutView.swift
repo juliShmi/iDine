@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CheckoutView: View {
+    @EnvironmentObject var order:Order
     
     let paymentTypes:[String] = ["Cash", "Credit card", "iDine Points"]
     @State var payBy = "Card"
@@ -17,6 +18,12 @@ struct CheckoutView: View {
     
     let tips = [10, 15, 20, 25, 0]
     @State private var tipAmount = 15
+    
+    var showTotalPrice: String {
+        let total = Double(order.total)
+        let tipValue = total / 100 * Double(tipAmount)
+        return (total + tipValue).formatted(.currency(code: "USD"))
+    }
     
     var body: some View {
         Form {
@@ -34,11 +41,11 @@ struct CheckoutView: View {
             Section("Add tips?") {
                 Picker("Percentage", selection: $tipAmount) {
                     ForEach(tips, id: \.self) {
-                        Text("$\($0)")
+                        Text("\($0)%")
                     }
                 }.pickerStyle(.segmented)
             }
-            Section("Total: $100") {
+            Section("Total: \(showTotalPrice)") {
                 Button("Confirm order") {
                     
                 }
